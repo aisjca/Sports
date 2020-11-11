@@ -1,0 +1,47 @@
+server:
+  port: 8001
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: jiang1996cheng
+    url: jdbc:mysql://localhost:3306/sports?serverTimezone=GMT%2B8
+  application:
+    name: service-edu
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 1800000
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
+    password: jiang1996cheng
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+#设置日志级别
+#logging:
+#  level: info
+
+mybatis-plus:
+  mapper-locations: classpath:com/jc/edu/mapper/xml/*.xml
+#开启熔断机制
+feign:
+  hystrix:
+    enabled: true
+#nacos地址
