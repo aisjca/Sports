@@ -1,7 +1,6 @@
 package com.jc.edu.entity.frontvo;
 
 import io.swagger.annotations.ApiModelProperty;
-
 import java.math.BigDecimal;
 
 /**
@@ -10,7 +9,8 @@ import java.math.BigDecimal;
  * @author: JC
  * @create: 2020/11/02 22:37
  */
-public class CourseWebVo {
+public class CourseWebVo{
+
     private String id;
 
     @ApiModelProperty(value = "课程标题")

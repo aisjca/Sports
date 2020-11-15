@@ -8,6 +8,7 @@ import com.jc.edu.entity.frontvo.CourseWebVo;
 import com.jc.edu.entity.vo.CourseInfoVo;
 import com.jc.edu.entity.vo.CoursePublishVo;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 

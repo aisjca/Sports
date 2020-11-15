@@ -15,12 +15,12 @@ import com.jc.edu.service.CourseDescriptionService;
 import com.jc.edu.service.CourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jc.edu.service.VideoService;
+import com.jc.utils.RedisUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +44,9 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     @Autowired
     private ChapterService chapterService;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     @Override
     public String saveCourseInfo(CourseInfoVo courseInfoVo) {
@@ -126,9 +129,9 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         return courseList;
     }
 
+    //1 条件查询带分页查询课程
     @Override
     public Map<String, Object> getCourseFrontList(CourseFrontVo courseFrontVo, Page<Course> pageParam) {
-        //2 根据讲师id查询所讲课程
         QueryWrapper<Course> wrapper = new QueryWrapper<>();
         //判断条件值是否为空，不为空拼接
         if (!StringUtils.isEmpty(courseFrontVo.getSubjectParentId())) {//一级分类
@@ -168,8 +171,16 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
     //根据课程id，编写sql语句查询课程信息
     @Override
-    public CourseWebVo getBaseCourseInfo(String courseId) {
-        return baseMapper.getBaseCourseInfo(courseId);
+    public CourseWebVo getBaseCourseInfo(String courseId){
+        //判断课程详情是否有缓存，有则直接返回，无则直接添加到缓存
+        CourseWebVo courseWebVo;
+        if (redisUtils.HgetValue("course_msg",courseId,CourseWebVo.class)!=null) {
+            courseWebVo = (CourseWebVo) redisUtils.HgetValue("course_msg", courseId, CourseWebVo.class);
+        } else {
+            courseWebVo=baseMapper.getBaseCourseInfo(courseId);
+            redisUtils.HsetValue("course_msg", courseId, courseWebVo);
+        }
+        return courseWebVo;
     }
 
 

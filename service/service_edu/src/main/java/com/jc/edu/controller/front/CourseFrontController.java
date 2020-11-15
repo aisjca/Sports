@@ -9,8 +9,10 @@ import com.jc.edu.service.ChapterService;
 import com.jc.edu.service.CourseService;
 import com.jc.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +46,7 @@ public class CourseFrontController {
 
     //课程详情方法
     @GetMapping("getFrontCourseInfo/{courseId}")
-    public Result getFrontCourseInfo(@PathVariable String courseId) {
+    public Result getFrontCourseInfo(@PathVariable String courseId){
         //根据课程id，编写sql语句查询课程信息
         CourseWebVo courseWebVo = courseService.getBaseCourseInfo(courseId);
         //根据课程id查询章节和小节
