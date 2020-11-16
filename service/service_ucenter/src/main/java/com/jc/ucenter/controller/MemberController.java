@@ -6,6 +6,8 @@ import com.jc.ucenter.entity.vo.RegisterVo;
 import com.jc.ucenter.service.MemberService;
 import com.jc.utils.JwtUtils;
 import com.jc.utils.Result;
+import com.jc.utils.ordervo.UcenterMemberOrder;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +54,15 @@ public class MemberController {
         //查询数据库根据用户id获取用户信息
         Member member = memberService.getById(memberId);
         return Result.ok().data("userInfo", member);
+    }
+
+    //根据用户Id返回用户信息
+    @GetMapping("getMemberInfoOrder/{memberId}")
+    public UcenterMemberOrder getMemberInfoOrder(@PathVariable String memberId) {
+        Member member = memberService.getById(memberId);
+        UcenterMemberOrder ucenterMemberOrder = new UcenterMemberOrder();
+        BeanUtils.copyProperties(member, ucenterMemberOrder);
+        return ucenterMemberOrder;
     }
 }
 

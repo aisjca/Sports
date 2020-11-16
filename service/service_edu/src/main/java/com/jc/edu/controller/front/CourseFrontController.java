@@ -8,6 +8,8 @@ import com.jc.edu.entity.frontvo.CourseWebVo;
 import com.jc.edu.service.ChapterService;
 import com.jc.edu.service.CourseService;
 import com.jc.utils.Result;
+import com.jc.utils.ordervo.CourseWebVoOrder;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +48,7 @@ public class CourseFrontController {
 
     //课程详情方法
     @GetMapping("getFrontCourseInfo/{courseId}")
-    public Result getFrontCourseInfo(@PathVariable String courseId){
+    public Result getFrontCourseInfo(@PathVariable String courseId) {
         //根据课程id，编写sql语句查询课程信息
         CourseWebVo courseWebVo = courseService.getBaseCourseInfo(courseId);
         //根据课程id查询章节和小节
@@ -54,4 +56,12 @@ public class CourseFrontController {
         return Result.ok().data("courseWebVo", courseWebVo).data("chapterVoList", chapterVideoList);
     }
 
+    //课程详情方法
+    @GetMapping("getCourseInfoOrder/{courseId}")
+    public CourseWebVoOrder getCourseInfoOrder(@PathVariable String courseId) {
+        CourseWebVo courseWebVo = courseService.getBaseCourseInfo(courseId);
+        CourseWebVoOrder courseWebVoOrder = new CourseWebVoOrder();
+        BeanUtils.copyProperties(courseWebVo, courseWebVoOrder);
+        return courseWebVoOrder;
+    }
 }

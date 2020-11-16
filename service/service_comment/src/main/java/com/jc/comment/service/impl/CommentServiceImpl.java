@@ -28,6 +28,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     public Map<String, Object> getCommentFrontList(String courseId, Page<Comment> pageComment) {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq("course_id", courseId);
+        wrapper.orderByDesc("gmt_create");
         baseMapper.selectPage(pageComment, wrapper);
         Map<String, Object> map = new HashMap<>();
         List<Comment> records = pageComment.getRecords();

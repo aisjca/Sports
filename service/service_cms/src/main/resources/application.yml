@@ -27,6 +27,10 @@ spring:
         max-idle: 5
         min-idle: 0
     password: jiang1996cheng
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
 
 #配置mapper.xml文件的路径
 mybatis-plus:
