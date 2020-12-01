@@ -19,4 +19,7 @@ public interface MemberService extends IService<Member> {
     void register(RegisterVo registerVo);
 
     Member getOpenIdMember(String openid);
+
+    //查询某一个注册用户数量
+    Integer countRegisterDay(String day);
 }

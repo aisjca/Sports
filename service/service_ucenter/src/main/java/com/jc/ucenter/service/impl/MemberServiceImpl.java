@@ -9,6 +9,7 @@ import com.jc.ucenter.service.MemberService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jc.utils.JwtUtils;
 import com.jc.utils.MD5;
+import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,5 +106,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         wrapper.eq("openid", openid);
         Member member = baseMapper.selectOne(wrapper);
         return member;
+    }
+
+    @Override
+    public Integer countRegisterDay(String day) {
+        Integer count=baseMapper.countRegisterDay(day);
+        return count;
     }
 }
