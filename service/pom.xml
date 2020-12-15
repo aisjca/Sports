@@ -32,6 +32,12 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!--服务限流-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+
         <!--负载均衡 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
