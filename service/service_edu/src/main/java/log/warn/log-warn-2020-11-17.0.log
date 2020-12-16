@@ -1,0 +1,9 @@
+2020-11-17 00:30:55.253 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'chapterMapper' and 'com.jc.edu.mapper.ChapterMapper' mapperInterface. Bean already defined with the same name!
+2020-11-17 00:30:55.254 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'courseDescriptionMapper' and 'com.jc.edu.mapper.CourseDescriptionMapper' mapperInterface. Bean already defined with the same name!
+2020-11-17 00:30:55.255 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'courseMapper' and 'com.jc.edu.mapper.CourseMapper' mapperInterface. Bean already defined with the same name!
+2020-11-17 00:30:55.255 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'subjectMapper' and 'com.jc.edu.mapper.SubjectMapper' mapperInterface. Bean already defined with the same name!
+2020-11-17 00:30:55.255 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'teacherMapper' and 'com.jc.edu.mapper.TeacherMapper' mapperInterface. Bean already defined with the same name!
+2020-11-17 00:30:55.255 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'videoMapper' and 'com.jc.edu.mapper.VideoMapper' mapperInterface. Bean already defined with the same name!
+2020-11-17 00:30:55.255 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.jc.edu.mapper]' package. Please check your configuration.
+2020-11-17 00:30:57.440 [main] WARN  com.netflix.config.sources.URLConfigurationSource - No URLs will be polled as dynamic configuration sources.
+2020-11-17 00:30:57.444 [main] WARN  com.netflix.config.sources.URLConfigurationSource - No URLs will be polled as dynamic configuration sources.

@@ -1,4 +1,4 @@
-package com.jc.edu;
+package com.jc.statistics;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -7,22 +7,21 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * @program sport_parent
- * @description:
+ * @description: 统计分析启动类
  * @author: JC
- * @create: 2020/09/04 10:43
+ * @create: 2020/12/01 00:34
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.jc"})
-@EnableDiscoveryClient
+@MapperScan("com.jc.statistics.mapper")
 @EnableFeignClients
-@MapperScan("com.jc.edu.mapper")
-@EnableScheduling
-public class EduApplication {
+@ComponentScan("com.jc")
+@EnableDiscoveryClient
+@EnableScheduling//开启定时任务
+public class DailyApplication {
     public static void main(String[] args) {
-        SpringApplication.run(EduApplication.class, args);
+        SpringApplication.run(DailyApplication.class, args);
     }
 }
