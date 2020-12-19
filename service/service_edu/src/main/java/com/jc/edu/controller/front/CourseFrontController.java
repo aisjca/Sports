@@ -9,6 +9,7 @@ import com.jc.edu.entity.frontvo.CourseWebVo;
 import com.jc.edu.service.ChapterService;
 import com.jc.edu.service.CourseService;
 import com.jc.utils.JwtUtils;
+import com.jc.utils.RedisUtils;
 import com.jc.utils.Result;
 import com.jc.utils.ordervo.CourseWebVoOrder;
 import org.springframework.beans.BeanUtils;
@@ -42,6 +43,9 @@ public class CourseFrontController {
     @Autowired
     private OrderClient orderClient;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
     //1 条件查询带分页查询课程
     @PostMapping("getFrontCourseList/{page}/{limit}")
     public Result getFrontCourseList(@PathVariable long page, @PathVariable long limit,
@@ -52,7 +56,9 @@ public class CourseFrontController {
     }
 
 
-    //课程详情方法
+    /**
+     * @description:课程详情方法
+     */
     @GetMapping("getFrontCourseInfo/{courseId}")
     public Result getFrontCourseInfo(@PathVariable String courseId, HttpServletRequest request) {
         //根据课程id，编写sql语句查询课程信息
@@ -61,12 +67,21 @@ public class CourseFrontController {
         List<ChapterVo> chapterVideoList = chapterService.getChapterVideoByCourseId(courseId);
         //根据courseId和memberId来查询用户是否购买了课程
         String memberId = JwtUtils.getMemberIdByJwtToken(request);
-        //TODO 要处理用户没登陆，而用户详情页面显示错误的bug
         if (memberId == null||memberId.equals("")) {
             return Result.ok().data("courseWebVo", courseWebVo).data("chapterVoList", chapterVideoList);
         }
+        //判断用户是否已经购买课程
         boolean isBuy = orderClient.getOrderState(courseId, memberId);
-        return Result.ok().data("courseWebVo", courseWebVo).data("chapterVoList", chapterVideoList).data("isBuy", isBuy);
+        int totalLikeCount = 0;
+        //判断点赞数量是否已经加入缓存了
+        if (stringRedisTemplate.opsForHash().get("totalLikeCount", courseId) == null) {
+            totalLikeCount = courseWebVo.getTotalLikeCount();//总点赞数
+            stringRedisTemplate.opsForHash().put("totalLikeCount", courseId,String.valueOf(totalLikeCount));
+        } else {
+            totalLikeCount = Integer.parseInt((String) stringRedisTemplate.opsForHash().get("totalLikeCount", courseId));
+        }
+        return Result.ok().data("courseWebVo", courseWebVo).data("chapterVoList", chapterVideoList).data("isBuy", isBuy)
+                .data("totalLikeCount", totalLikeCount);
     }
 
     //获得课程详情方法

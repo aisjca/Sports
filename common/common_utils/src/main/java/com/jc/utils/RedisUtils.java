@@ -1,4 +1,5 @@
 package com.jc.utils;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -7,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @program sport_parent
- * @description:
+ * @description: redis工具类
  * @author: JC
  * @create: 2020/11/15 15:20
  */
@@ -32,5 +33,13 @@ public class RedisUtils {
 
     public Object HgetValue(String name, String key, Class clazz) {
         return JsonUtil.StringToJson((String) stringRedisTemplate.boundHashOps(name).get(key), clazz);
+    }
+
+    public void setValue(String key, String value) {
+        stringRedisTemplate.opsForValue().set(key, value);
+    }
+
+    public String getValue(String key) {
+        return stringRedisTemplate.opsForValue().get(key);
     }
 }

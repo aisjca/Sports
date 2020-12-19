@@ -58,6 +58,9 @@ public class CourseWebVo{
     @ApiModelProperty(value = "类别二级名称")
     private String subjectLevelTwo;
 
+    @ApiModelProperty(value = "课程点赞总数")
+    private int totalLikeCount;
+
     public String getId() {
         return id;
     }
@@ -184,5 +187,13 @@ public class CourseWebVo{
 
     public void setSubjectLevelTwo(String subjectLevelTwo) {
         this.subjectLevelTwo = subjectLevelTwo;
+    }
+
+    public int getTotalLikeCount() {
+        return totalLikeCount;
+    }
+
+    public void setTotalLikeCount(Integer totalLikeCount) {
+        this.totalLikeCount = totalLikeCount;
     }
 }

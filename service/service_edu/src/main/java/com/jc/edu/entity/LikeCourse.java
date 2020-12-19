@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * <p>
  * 
  * </p>
- * @deprecated 用户点赞课程的实体类
+ * @description 用户点赞课程的实体类
  * @author jc
  * @since 2020-12-16
  */
