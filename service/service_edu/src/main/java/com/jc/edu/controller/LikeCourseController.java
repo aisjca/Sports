@@ -4,6 +4,7 @@ package com.jc.edu.controller;
 import com.jc.edu.service.LikeCourseService;
 import com.jc.utils.RedisUtils;
 import com.jc.utils.Result;
+import com.jc.utils.constant.RedisConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,6 @@ public class LikeCourseController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-
     /**
      * @param courseId 课程Id
      * @param userId   用户Id
@@ -37,14 +37,13 @@ public class LikeCourseController {
     @PostMapping("likeCourse/{courseId}/{userId}")
     public Result likeCourse(@PathVariable String courseId, @PathVariable String userId) {
         boolean isLike = likeCourseService.validateParam(courseId, userId);//判断用户是否已经点赞了，true为还没点赞
-        int totalLikeCount = Integer.parseInt((String) stringRedisTemplate.opsForHash().get("totalLikeCount", courseId));//获取当前总点赞数
         if (isLike) {
-            totalLikeCount += 1;//不是原子操作，有线程安全问题
-            stringRedisTemplate.opsForHash().put("totalLikeCount", courseId, String.valueOf(totalLikeCount));
-            return Result.ok().data("totalLikeCount", String.valueOf(totalLikeCount));
-        } else {//如果已经点赞了，则不能重复点赞
-            return Result.error();
+            likeCourseService.likeCourse(courseId,userId);//点赞
+            return Result.ok().data("totalLikeCount", stringRedisTemplate.opsForValue().get(RedisConstant.getCourseLikeHashKey(courseId)));
+        } else {
+            return Result.error().message("用户已经点赞了");
         }
+
     }
 
     /**
@@ -55,15 +54,7 @@ public class LikeCourseController {
      */
     @PostMapping("unlikeCourse/{courseId}/{userId}")
     public Result unlikeCourse(@PathVariable String courseId, @PathVariable String userId) {
-        boolean isLike = likeCourseService.validateParam(courseId, userId);//判断用户是否已经点赞了，true为还没点赞
-        int totalLikeCount = Integer.parseInt((String) stringRedisTemplate.opsForHash().get("totalLikeCount", courseId));//获取当前总点赞数
-        if (isLike) {//如果还没赞，则不能取消点赞
-            return Result.error();
-        } else {//如果已经点赞了，则可以取消点赞
-            totalLikeCount -= 1;//不是原子操作，有线程安全问题
-            stringRedisTemplate.opsForHash().put("totalLikeCount", courseId, String.valueOf(totalLikeCount));
-            return Result.ok().data("totalLikeCount", totalLikeCount);
-        }
+        return Result.error();
     }
 
 }

@@ -11,6 +11,7 @@ import com.jc.edu.service.CourseService;
 import com.jc.utils.JwtUtils;
 import com.jc.utils.RedisUtils;
 import com.jc.utils.Result;
+import com.jc.utils.constant.RedisConstant;
 import com.jc.utils.ordervo.CourseWebVoOrder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,11 +75,11 @@ public class CourseFrontController {
         boolean isBuy = orderClient.getOrderState(courseId, memberId);
         int totalLikeCount = 0;
         //判断点赞数量是否已经加入缓存了
-        if (stringRedisTemplate.opsForHash().get("totalLikeCount", courseId) == null) {
+        if (stringRedisTemplate.opsForValue().get(RedisConstant.getCourseLikeHashKey(courseId)) == null) {
             totalLikeCount = courseWebVo.getTotalLikeCount();//总点赞数
-            stringRedisTemplate.opsForHash().put("totalLikeCount", courseId,String.valueOf(totalLikeCount));
+            stringRedisTemplate.opsForValue().set(RedisConstant.getCourseLikeHashKey(courseId), String.valueOf(totalLikeCount));
         } else {
-            totalLikeCount = Integer.parseInt((String) stringRedisTemplate.opsForHash().get("totalLikeCount", courseId));
+            totalLikeCount = Integer.parseInt((String) stringRedisTemplate.opsForValue().get(RedisConstant.getCourseLikeHashKey(courseId)));
         }
         return Result.ok().data("courseWebVo", courseWebVo).data("chapterVoList", chapterVideoList).data("isBuy", isBuy)
                 .data("totalLikeCount", totalLikeCount);

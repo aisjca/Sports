@@ -14,4 +14,6 @@ public interface LikeCourseService extends IService<LikeCourse> {
     boolean validateParam(String courseId, String userId);
 
     void updateCourseLike(String courseId, Integer totalLikeCount);
+
+    void likeCourse(String courseId,String userId);
 }

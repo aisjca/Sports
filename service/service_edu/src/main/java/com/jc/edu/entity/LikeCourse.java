@@ -32,13 +32,13 @@ public class LikeCourse implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "用户Id")
-    private Integer userId;
+    private String userId;
 
     @ApiModelProperty(value = "课程Id")
-    private Integer courseId;
+    private String courseId;
 
     @ApiModelProperty(value = "逻辑删除")
-    private Boolean deleted;
+    private int deleted;
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)

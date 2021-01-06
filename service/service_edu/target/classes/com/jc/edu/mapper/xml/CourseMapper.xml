@@ -29,7 +29,8 @@ From edu_course ec LEFT JOIN edu_course_description ecd on ec.id=ecd.id
 				ecd.description,
 				et.id AS teacherId,et.name AS teacherName,et.avatar,et.intro,
 				es1.id AS subjectLevelOneId,es1.title AS subjectLevelOne,
-				es2.id AS subjectLevelTwoId,es2.title AS subjectLevelTwo
+				es2.id AS subjectLevelTwoId,es2.title AS subjectLevelTwo,
+				ec.total_likecount
 		FROM edu_course AS ec LEFT OUTER JOIN edu_course_description AS ecd on ec.id =ecd.id
                      		  LEFT OUTER JOIN edu_teacher AS et ON et.id=ec.teacher_id
                      		  LEFT OUTER JOIN edu_subject AS es1 ON ec.subject_parent_id=es1.id
